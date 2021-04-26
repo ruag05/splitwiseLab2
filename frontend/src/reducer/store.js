@@ -1,9 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-
-import ProfileReducer from './ProfileReducer'
 import { composeWithDevTools } from 'redux-devtools-extension'
-//import RegisterReducer from './RegisterReducer'
-//import GroupReducer from './GroupReducer'
+import ProfileReducer from './ProfileReducer'
+import CreateGroupReducer from './CreateGroupReducer';
 
 export default configureStore({
     // middleware: getDefaultMiddleware({
@@ -17,9 +15,7 @@ export default configureStore({
     //     },
     //   }),
     reducer: {
-         profile: ProfileReducer
-        // dash: DashReducer,
-        // register: RegisterReducer,
-        // group: GroupReducer,
+         profile: ProfileReducer,
+         createGroup: CreateGroupReducer
     },
 }, composeWithDevTools());

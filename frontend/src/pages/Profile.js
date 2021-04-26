@@ -6,12 +6,12 @@ import { currencies } from "../utils/currency";
 import { languages } from "../utils/language";
 import "./Profile.css";
 import avatar from "../images/avatar.png"
-import { useSelector, useDispatch } from "react-redux";
-import { updateProfilePic, updateProfile, getUsers } from '../Actions/ProfileActions';
 import { InputGroup, FormControl } from 'react-bootstrap'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
+import { useSelector, useDispatch } from "react-redux";
+import { updateProfilePic, updateProfile, getUsers } from '../Actions/ProfileActions';
 import { setSingleData } from '../reducer/ProfileReducer';
 
 const initState = {
@@ -28,34 +28,19 @@ export default function Profile() {
   const dispatch = useDispatch();
   const redux_data = useSelector(state => state.profile);
 
+  const alert = useAlert();
+
   const [editmode, changeEdit] = useState(false)
   const [editmode2, changeEdit2] = useState(false)
   const [editmode3, changeEdit3] = useState(false)
-
   const [changeValue, onChangeValue] = useState('')
-
   const [user, setUser] = useState(initState);
   const [img, setImg] = useState(null);
-  const alert = useAlert();
 
-//   const findFormErrors = () => {
-//     const { email } = form
-//     const newErrors = {}
-//     // name errors
-
-//     if ( !email || email === '' ) newErrors.email = 'cannot be blank!'
-//     else
-//     {
-//       if ( email.length > 30 ) newErrors.email = 'name is too long!'
-//     }
-    
-
-//     return newErrors
-// }
-
-useEffect(()=>{
-  alert.success(redux_data.msg);
-},[redux_data.msg])
+  useEffect(() => {
+    if (redux_data.msg !== "")
+      alert.success(redux_data.msg);
+  }, [redux_data.msg])
 
   const onEdit = () => {
     changeEdit(!editmode)
@@ -83,13 +68,14 @@ useEffect(()=>{
   }
 
   const onChangeX4 = (key, val) => {
-    dispatch(setSingleData({ key: key, value: val })); 
+    dispatch(setSingleData({ key: key, value: val }));
   }
- 
+
   const onFileChangeHandler = (e) => {
     e.preventDefault();
     setImg(e.target.files[0]);
   };
+
   const handleImageUpload = (e) => {
     const data = new FormData();
     data.append("photo", img);
@@ -97,16 +83,6 @@ useEffect(()=>{
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     dispatch(updateProfilePic(data));
-    //alert.success(redux_data.msg);  
-    // axios
-    //   .post(`/users/updateProfilePic`, data)
-    //   .then((res) => {
-    //     setUser({ ...user, photo: res.data.photo });
-    //     alert.success(`${res.data.msg}`);
-    //   })
-    //   .catch((err) => {
-    //     alert.error(`Error is: ${err.response.data.msg}`);
-    //   });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -127,19 +103,6 @@ useEffect(()=>{
       language: redux_data.language
     }
     dispatch(updateProfile(reduxData));
-    // axios
-    //   .post(`/users/update`, data)
-    //   .then((res) => {
-    //     alert.success("Updated");
-    //     //setUser(res.data.user);
-    //   })
-    //   .catch((err) => {
-    //     if (err.response?.data.errors) {
-    //       err.response?.data.errors.map((e) => alert.error(e.message));
-    //     } else {
-    //       alert.error(err.response?.data.msg);
-    //     }
-    //   });
   };
 
   const { name, email, phone, photo, currency, timezone, language } = user;
@@ -148,15 +111,6 @@ useEffect(()=>{
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     dispatch(getUsers());
-    // axios
-    //   .get("/users")
-    //   .then((res) => {
-    //     setUser(res.data);
-    //   })
-    //   .catch((err) => {
-    //     setUser(initState);
-    //     alert.error("Error: " + err.response?.data?.msg);
-    //   });
   }, []);
 
   return (
@@ -196,13 +150,13 @@ useEffect(()=>{
               <div className="col-md-7 px-4" style={{ borderLeft: '0.2px solid #888' }}>
                 <h5 htmlFor="name">Your Name</h5>
                 {editmode ? <div>
-                  
-                    <input name="name" id="name" type="text" pattern="[a-zA-Z0-9 ]{4,16}"
-                      placeholder={redux_data.name} style={{ marginRight: 5 }} 
-                    />
-                    <FontAwesomeIcon icon={faCheckCircle} style={{ marginTop: "10", marginRight: "5", color: 'grey', cursor: 'pointer' }} onClick={() => { onChangeX('name', document.getElementById('name').value) }} />
-                    <FontAwesomeIcon icon={faTimesCircle} style={{ marginTop: "10", color: 'grey', cursor: 'pointer' }} onClick={() => onEdit()} />
-                 
+
+                  <input name="name" id="name" type="text" pattern="[a-zA-Z0-9 ]{4,16}"
+                    placeholder={redux_data.name} style={{ marginRight: 5 }}
+                  />
+                  <FontAwesomeIcon icon={faCheckCircle} style={{ marginTop: "10", marginRight: "5", color: 'grey', cursor: 'pointer' }} onClick={() => { onChangeX('name', document.getElementById('name').value) }} />
+                  <FontAwesomeIcon icon={faTimesCircle} style={{ marginTop: "10", color: 'grey', cursor: 'pointer' }} onClick={() => onEdit()} />
+
                 </div> :
                   <table>
                     <tr>
@@ -211,7 +165,7 @@ useEffect(()=>{
                           type="text"
                           className="form-control mb-3"
                           name="name" readOnly
-                          value={redux_data.name}                         
+                          value={redux_data.name}
                           placeholder="Name"
                         />
                       </td>
@@ -264,7 +218,7 @@ useEffect(()=>{
                         <input
                           type="tel"
                           className="form-control mb-3"
-                          name="phone" readOnly 
+                          name="phone" readOnly
                           value={redux_data.phone}
                           placeholder="Phone Number"
                         />
@@ -281,8 +235,8 @@ useEffect(()=>{
                 <select
                   name="currency" id="currency" defaultValue=""
                   onChange={() => { onChangeX4('currency', document.getElementById('currency').value) }}
-                  className="form-control form-select mb-3"     
-                  value={redux_data.currency}             
+                  className="form-control form-select mb-3"
+                  value={redux_data.currency}
                 >
                   {
                     currencies.map((t, i) => (
@@ -307,8 +261,8 @@ useEffect(()=>{
 
                 <h5 htmlFor="language">Your default language</h5>
                 <select
-                  name="language" id="language"                
-                  onChange={()=>{ onChangeX4('language', document.getElementById('language').value)} }
+                  name="language" id="language"
+                  onChange={() => { onChangeX4('language', document.getElementById('language').value) }}
                   className="form-control form-select mb-3"
                   value={redux_data.language}
                 >

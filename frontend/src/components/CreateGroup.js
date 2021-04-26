@@ -1,12 +1,22 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAlert } from "react-alert";
 import CreateInvite from "./CreateInvite";
 import splitwiselogo from "../images/splitwise-logo.png"
 
+import { useSelector, useDispatch } from "react-redux";
+import { createGroup } from '../Actions/CreateGroupActions';
+import { resetMsg } from '../reducer/CreateGroupReducer';
+
 export default function CreateGroup() {
-  const [state, setState] = useState({ name: "", photo: null });
+
+  const dispatch = useDispatch();
+  const redux_data = useSelector(state => state.createGroup);
+
   const alert = useAlert();
+
+  const [state, setState] = useState({ name: "", photo: null });
+
   const inputGroupName = React.useRef();
   const inputPhoto = React.useRef();
 
@@ -18,22 +28,15 @@ export default function CreateGroup() {
     }
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .post("/groups/create", data)
-      .then((res) => {
-        alert.success(res.data.msg);
-        setState({ ...res.data.group });
-        inputPhoto.current.value = "";
-        inputGroupName.current.value = "";
-      })
-      .catch((err) => {
-        if (err.response?.data.errors) {
-          err.response?.data.errors.map((e) => alert.error("Error: " + e));
-        } else {
-          alert.error("Something went wrong");
-        }
-      });
+    dispatch(createGroup(data));
   };
+
+  useEffect(() => {
+    if (redux_data.msg !== "")
+      alert.success(redux_data.msg);
+    dispatch(resetMsg());
+  }, [redux_data.msg])
+
   return (
     <div className="row">
       <div className="col-md-3" style={{ marginRight: 20 }}>
