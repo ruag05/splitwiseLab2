@@ -1,0 +1,289 @@
+
+.billform {
+    background: white;
+    display: flex;
+    position: fixed;
+    top: 100px;
+    left: 550px;
+    flex-direction: column;
+    border: 1px solid #999;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    height: 405px;
+    width: 352px;
+ }
+
+ .wrapper{
+    justify-content: center;
+    align-items: center;
+ }
+
+ .accordion{
+    width: 650px;
+ }
+
+ .item{   
+    margin-bottom: 5px;
+    padding: 1px 20px;
+ }
+
+ .title{    
+    cursor: pointer;
+    justify-content: space-between;
+    align-items: center;
+ }
+
+ .content{
+   color:"yellow";
+   max-height:0;
+   overflow: hidden;
+   transition: all 0.2s
+ }
+ 
+ .content.show{
+   height:auto;
+   width:100%;
+   max-height: 999px;
+ }
+
+ .centered {
+   height: 100%; /* Magic here */
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .add-a-bill {
+     background: #5cc5a7;
+     color: #fff;
+     padding: 10px;
+     border-bottom: 1px solid #36977b;
+     text-shadow: 0 -1px 0 #318a71;
+     font-size: 18px;
+     font-weight: bold;
+     width: 100%;
+     display: flex;
+     justify-content: space-between;
+     border-radius: 6px 6px 0px 0px;     
+ }
+ .buttons {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px lightgrey solid;
+    padding-top: 20px;
+    padding-bottom: 0;
+ 
+ }
+ .savebutton {
+     background: #5cc5a7;
+     color: #fff;
+     text-shadow: 0 -1px 0px #318a71;
+     border: 1px grey solid;
+     background-color: #5BC5A7;
+     margin-right: 10px;
+     font-size: 15px;
+     width: 60px;
+     text-decoration: none;
+     border-radius: 5px;
+     padding: 9px 12px;
+     border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+ }
+.savebutton:hover {
+    background: #43BA98;
+ }
+ 
+.cancelbutton {
+     background: #f6f6f6;
+     color: #333;
+     border: 1px solid;
+     font-size: 15px;
+     width: 80px;
+     text-decoration: none;
+     border-radius: 5px;
+     padding: 9px 14px;
+     margin-right: 10px;
+     border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);   
+ }
+ .cancelbutton:hover {
+     background-color: #cccaca;
+ }
+ .addfriends {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+ }
+ .addfriendslabel {
+    font-size: 20px;
+    padding-left: 4px;
+    display: flex;
+ }
+ .basic-single {
+    width: 200px;
+ }
+ .leftinput {
+    background-image: url('../images/general.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 160px;
+    margin-top: 10px;
+    display:flow-root;
+ }
+ .descrp {
+    font-size: 22px;
+    padding: 20px 0px 0px 0px;
+    border: dotted;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom-color: gray;
+    border-bottom-width: 0.15rem;
+    margin-left: 85%;
+    color: gray;
+    width: 160%;
+ }
+ .dollar {
+    font-size: 20px;
+    padding: 25px 0px 0px 0px;
+ }
+ .amount {
+    display: flex;
+    border: dotted;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom-color: gray;
+    border-bottom-width: 0.15rem;
+    margin-left: 85%;
+    width: 160%;
+ }
+ .amount-focus {
+   outline: 0;
+ }
+ .amtinput {
+    font-size: 30px;
+    padding-left: 5px;
+    padding-top: 18px;
+    width: 180px;
+    border:0;
+    color: gray;
+ }
+ .innerbillform {
+    height: 288px;
+ }
+ .addfriendscont {
+    padding-bottom: 10px;
+    border-bottom: 1px lightgrey solid;
+ }
+ 
+ .you {
+    background: rgb(245, 242, 242);
+    border-radius: 100px;
+    padding: 0px 4px;
+    border: 1px grey dashed;
+    color: #5BC5A7;
+    width: 45px;
+ }
+ .you:hover {
+    background-color: lightgrey;
+ }
+ .equally {
+    background: rgb(245, 242, 242);
+    border-radius: 100px;
+    padding: 0px 4px;
+    border: 1px grey dashed;
+    color: #5BC5A7;
+    width: 55px;
+ }
+ 
+ .paidby {
+    font-size: 14px;
+    margin-left: 40px;
+    padding-top: 20px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+ }
+ 
+ .midinput {
+    display: flex;
+ }
+ .rightinput {
+    width: 30px;
+ }
+ 
+ .X:hover {
+    text-decoration: underline;
+ }
+ .paidbyform {
+    position: fixed;
+    height: 307px;
+    width: 300px;
+    border-radius: 8px 8px;
+    top: 100px;
+    right: 200px;
+    background: white;
+    border: 1px solid #999;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+ }
+ 
+ .choosepayer {
+     background: #5cc5a7;
+     color: #fff;
+     padding: 10px;
+     border-bottom: 1px solid #36977b;
+     text-shadow: 0 -1px 0 #318a71;
+     font-size: 18px;
+     font-weight: bold;
+    border-radius: 6px 6px 0px 0px;
+ }
+ 
+ .user {
+    font-size: 18px;
+    color: grey;
+   cursor: pointer;
+   width: 298px;
+     font-weight: bold;
+       padding: 10px 10px 9px;
+     border-bottom: 1px solid #eee;
+     display: flex;
+ }
+ .user:hover {
+  background: #eee;
+ }
+
+ 
+ .categoryli {
+     width: 154px;
+     border-bottom: 1px solid #ccc;
+     background: #fff;
+     cursor: pointer;
+     padding: 11px 10px 15px;
+     font-size: 14px;
+     border-right: 1px solid #bbb;
+     color: #333333;
+  
+ 
+ }
+ .categoryli:hover {
+     background: #ccc;
+ }
+ .lastli {
+     width: 154px;
+     background: #fff;
+     cursor: pointer;
+     padding: 10px 10px 15px;
+     font-size: 14px;
+     border-right: 1px solid #bbb;
+     color: #333333;
+    border-bottom: 0;
+    border-bottom-left-radius: 8px;
+  
+ }
+ .lastli:hover {
+     background: #ccc;
+ }
+ .eachbalance {
+    text-align: center;
+ }
