@@ -13,9 +13,14 @@ export const ProfileReducer = createSlice({
         timezone: "",
         language: "",
         user: "",
-        msg: ""
+        msg: "",
+        success: false
     },
     reducers: {
+        resetMsg(state, action) {
+            state.msg = ""
+            state.success = true
+        },
         setSingleData(state, action) {
             let key = action.payload.key
             let value = action.payload.value
@@ -55,7 +60,7 @@ export const ProfileReducer = createSlice({
                     state.msg = "Photo modified, click Save button to save"
                     break;
                 }
-                default:                   
+                default:
                     break;
             }
         }
@@ -63,24 +68,35 @@ export const ProfileReducer = createSlice({
     extraReducers: {
         [updateProfilePic.fulfilled]: (state, action) => {
             state.photo = action.payload.photo
-            state.msg = action.payload.msg          
+            state.msg = action.payload.msg
+            state.success = true
+        },
+        [updateProfilePic.rejected]: (state, action) => {
+            state.msg = action.payload.msg
+            state.success = false
         },
         [updateProfile.fulfilled]: (state, action) => {
             state.user = action.payload.user
             state.msg = "Profile updated"
+            state.success = true
+        },
+        [updateProfile.rejected]: (state, action) => {
+            state.msg = "Email already taken"
+            state.success = false
         },
         [getUsers.fulfilled]: (state, action) => {
             state.photo = action.payload.photo
             state.name = action.payload.name
             state.email = action.payload.email
             state.phone = action.payload.phone
-            state.currency = action.payload.currency?action.payload.currency:"USD"
-            state.timezone = action.payload.timezone?action.payload.timezone:"America/New_York"
-            state.language = action.payload.language?action.payload.language:"English"
+            state.currency = action.payload.currency ? action.payload.currency : "USD"
+            state.timezone = action.payload.timezone ? action.payload.timezone : "America/New_York"
+            state.language = action.payload.language ? action.payload.language : "English"
             state.msg = "Profile loaded"
+            state.success = true
         }
     },
 });
 
-export const { setSingleData } = ProfileReducer.actions;
+export const { resetMsg, setSingleData } = ProfileReducer.actions;
 export default ProfileReducer.reducer

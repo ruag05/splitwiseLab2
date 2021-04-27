@@ -12,7 +12,7 @@ import { faEdit, faCheckCircle, faTimesCircle } from "@fortawesome/free-solid-sv
 
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfilePic, updateProfile, getUsers } from '../Actions/ProfileActions';
-import { setSingleData } from '../reducer/ProfileReducer';
+import { resetMsg, setSingleData } from '../reducer/ProfileReducer';
 
 const initState = {
   name: "",
@@ -38,8 +38,22 @@ export default function Profile() {
   const [img, setImg] = useState(null);
 
   useEffect(() => {
-    if (redux_data.msg !== "")
-      alert.success(redux_data.msg);
+    console.log("-----useEffect page load------")
+
+    dispatch(resetMsg());
+    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+    axios.defaults.withCredentials = true;
+    dispatch(getUsers());
+  }, []);
+
+  useEffect(() => {
+    console.log("-----redux_data.msg------", redux_data)
+    if (redux_data.msg !== "") {
+      if (redux_data.success)
+        alert.success(redux_data.msg);
+      else
+        alert.error(redux_data.msg);
+    }
   }, [redux_data.msg])
 
   const onEdit = () => {
@@ -84,6 +98,7 @@ export default function Profile() {
     axios.defaults.withCredentials = true;
     dispatch(updateProfilePic(data));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let data = {};
@@ -102,16 +117,15 @@ export default function Profile() {
       timezone: redux_data.timezone,
       language: redux_data.language
     }
-    dispatch(updateProfile(reduxData));
+    try {
+      dispatch(updateProfile(reduxData));
+    }
+    catch (err) {
+      console.log("inside catch")
+    }
   };
 
   const { name, email, phone, photo, currency, timezone, language } = user;
-
-  useEffect(() => {
-    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
-    axios.defaults.withCredentials = true;
-    dispatch(getUsers());
-  }, []);
 
   return (
     <div className="container-sm">

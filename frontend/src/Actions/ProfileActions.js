@@ -33,13 +33,18 @@ export const getUsers = createAsyncThunk(
 export const send_update = createAsyncThunk(
     'users/sendupdate',
     async (pckg) => {
-        const response = await axios.post('http://localhost:3001/profile/update', pckg)
-        console.log(response.status)
-        if (response.status === 200) {
-            return { status: true, key: pckg.data.type, value: pckg.data.value }
+        try {
+            const response = await axios.post('http://localhost:3001/profile/update', pckg)
+            console.log(response.status)
+            if (response.status === 200) {
+                return { status: true, key: pckg.data.type, value: pckg.data.value }
+            }
+            else {
+                return { status: false, message: `${pckg.data.type} cannot be changed to ${pckg.data.value}` }
+            }
         }
-        else {
-            return { status: false, message: `${pckg.data.type} cannot be changed to ${pckg.data.value}` }
+        catch (err) {
+            return { status: false, message: `Error is: ${err}` }
         }
     }
 )

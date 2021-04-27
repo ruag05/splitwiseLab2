@@ -7,6 +7,7 @@ import splitwiselogo from "../images/splitwise-logo.png"
 import { useSelector, useDispatch } from "react-redux";
 import { createGroup } from '../Actions/CreateGroupActions';
 import { resetMsg } from '../reducer/CreateGroupReducer';
+import { faAmericanSignLanguageInterpreting } from "@fortawesome/free-solid-svg-icons";
 
 export default function CreateGroup() {
 
@@ -17,8 +18,15 @@ export default function CreateGroup() {
 
   const [state, setState] = useState({ name: "", photo: null });
 
-  const inputGroupName = React.useRef();
-  const inputPhoto = React.useRef();
+  useEffect(() => {
+    if (redux_data.msg !== "") {
+      if (redux_data.success)
+        alert.success(redux_data.msg);
+      else
+        alert.error(redux_data.msg);
+    }
+    dispatch(resetMsg());
+  }, [redux_data.msg])
 
   const handleCreateGroup = (e) => {
     e.preventDefault();
@@ -28,14 +36,14 @@ export default function CreateGroup() {
     }
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    dispatch(createGroup(data));
+    try {
+      dispatch(createGroup(data));
+    }
+    catch (err) {
+      console.log("inside catch")
+      alert.error(err);
+    }
   };
-
-  useEffect(() => {
-    if (redux_data.msg !== "")
-      alert.success(redux_data.msg);
-    dispatch(resetMsg());
-  }, [redux_data.msg])
 
   return (
     <div className="row">
@@ -61,7 +69,7 @@ export default function CreateGroup() {
             <h5 className="mt-3">My group shall be called...</h5>
             <div className="form-group mb-3">
               <input
-                value={state.name} ref={inputGroupName}
+                value={state.name} 
                 onChange={(e) => setState({ ...state, name: e.target.value })}
                 className="form-control"
                 type="text"
@@ -71,10 +79,9 @@ export default function CreateGroup() {
               />
             </div>
             <h5 >My group photo shall be...</h5>
-            <input ref={inputPhoto}
+            <input
               onChange={(e) => {
                 setState({ ...state, photo: e.target.files[0] })
-                console.log("-----e.target.files[0]-------", e.target.files[0])
               }}
               className="form-control"
               type="file"

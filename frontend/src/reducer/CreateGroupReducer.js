@@ -6,17 +6,24 @@ export const CreateGroupReducer = createSlice({
     name: "createGroup",
     initialState: {
         group: "",
-        msg: ""
+        msg: "",
+        success: false
     },
     reducers: {
         resetMsg(state, action) {
             state.msg = ""
+            state.success = true
         }
     },
     extraReducers: {
         [createGroup.fulfilled]: (state, action) => {
             state.group = action.payload.group
             state.msg = action.payload.msg
+            state.success = true
+        },
+        [createGroup.rejected]: (state, action) => {
+            state.msg = "Group name already taken"
+            state.success = false
         },
     },
 });
