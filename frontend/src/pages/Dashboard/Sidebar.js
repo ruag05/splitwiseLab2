@@ -68,7 +68,7 @@ const LeftNav = () => {
       {invGrps.map(g => (
         <p key={g._id} className="each-friend">
           <Link className="each-element" to={`/groups`}>
-            <span classname="mx-9" style={{ marginRight: "5%" }}>
+            <span className="mx-9" style={{ marginRight: "5%" }}>
               <FontAwesomeIcon icon={faUserPlus} color="grey" />
             </span>
             {g.name}

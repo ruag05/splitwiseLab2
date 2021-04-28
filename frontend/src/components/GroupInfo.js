@@ -110,7 +110,7 @@ export default function GroupInfo() {
   return (
     <div>
       <div className="row" style={{ height: 40 }}>
-        <button class="btn btn-lightslategray" style={{ backgroundColor: "lightslategray", color: "white", alignContent: "center", marginTop: 20, marginLeft: "15%", height: 40 }}
+        <button className="btn btn-lightslategray" style={{ backgroundColor: "lightslategray", color: "white", alignContent: "center", marginTop: 20, marginLeft: "15%", height: 40 }}
           onClick={openModal}>
           Add Expense
         </button>
@@ -181,16 +181,16 @@ export default function GroupInfo() {
                             key={t.id}>
                             <div className="item">
                               <div className="title" onClick={() => toggleExpense(i, t._id)}>
-                                <div class="row rounded" style={{ padding: "2%", backgroundColor: '#808080', color: "white" }}>
-                                  <div class="leftcolumn1" style={{ width: "6%" }}>
+                                <div className="row rounded" style={{ padding: "2%", backgroundColor: '#808080', color: "white" }}>
+                                  <div className="leftcolumn1" style={{ width: "6%" }}>
                                     <span style={{ fontWeight: 450 }}>{d.toLocaleString('default', { month: 'short' }).toUpperCase()}</span> <br />
                                     <span style={{ fontWeight: 800, marginLeft: "10%" }}>{formatDate(d)}</span> <br />
                                   </div>
-                                  <div class="leftcolumn2" style={{ width: "7%" }}>
+                                  <div className="leftcolumn2" style={{ width: "7%" }}>
                                     <FontAwesomeIcon icon={faClipboardList} size="3x" color="ivory" style={{ marginTop: "2%", height: 40 }} />
                                   </div>
-                                  <div class="rightcolumn">
-                                    <span class="centered">{t.title}</span> <br />
+                                  <div className="rightcolumn">
+                                    <span className="centered">{t.title}</span> <br />
                                   </div>
                                   <div style={{ fontSize: 20, marginLeft: "auto" }}>{selected === i ? '-' : '+'}</div>
                                 </div>

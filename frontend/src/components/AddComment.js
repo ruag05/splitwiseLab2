@@ -130,11 +130,11 @@ export default function AddComment(props) {
         <table>
             <tbody>
                 <tr>
-                    <td class="left mx-2" style={{ alignContent: "center", width: '310px', verticalAlign: 'top', color: "white" }}>
+                    <td className="left mx-2" style={{ alignContent: "center", width: '310px', verticalAlign: 'top', color: "white" }}>
                         <h5 style={{ verticalAlign: 'bottom', paddingLeft: "2%" }}>Notes
                         <FontAwesomeIcon icon={faComments} size="sm" style={{ marginLeft: "2%", height: 30 }} />
                         </h5>
-                        <div class="comments" style={{ overflow: 'auto', height: 170, paddingRight: '5px' }}>
+                        <div className="comments" style={{ overflow: 'auto', height: 170, paddingRight: '5px' }}>
                             {comments.length < 1 ? <h5 style={{ paddingLeft: "2%" }}>No comments yet</h5> : null}
                             {comments.map((c) => {
                                 const d = new Date(c.createdAt);
@@ -144,13 +144,13 @@ export default function AddComment(props) {
                                             <FontAwesomeIcon style={{ verticalAlign: 'top', marginTop: "6px" }} color="gray" icon={faClipboard} size="2x" />
                                         </td>
                                         <td width="5%">
-                                            <div class="divClass px-1" style={{ color: "gray" }}>
+                                            <div className="divClass px-1" style={{ color: "gray" }}>
                                                 <div style={{ fontWeight: 400 }}>{d.toLocaleString('default', { month: 'short' }).toUpperCase()}</div>
                                                 <div style={{ paddingLeft: "11%", fontWeight: 700 }}>{formatDate(d)}</div>
                                             </div>
                                         </td>
                                         <td style={{ textAlign: "left" }}>
-                                            <div class="centered" style={{ display: "flex", flexFlow: "nowrap", color: "gray" }}>{c.authorId.name} added {c.comment}</div>
+                                            <div className="centered" style={{ display: "flex", flexFlow: "nowrap", color: "gray" }}>{c.authorId.name} added {c.comment}</div>
                                         </td>
                                         <td width="20%">
                                         </td>
@@ -191,18 +191,18 @@ export default function AddComment(props) {
                             })}
                         </div>
                     </td>
-                    <td class="right mx-2" style={{ alignContent: "center", verticalAlign: 'top', color: "white", marginRight: "auto" }}>
+                    <td className="right mx-2" style={{ alignContent: "center", verticalAlign: 'top', color: "white", marginRight: "auto" }}>
                         <h5 style={{ paddingLeft: "1%" }}>
                             Notes and Comments
                             <FontAwesomeIcon icon={faComment} size="sm" style={{ marginLeft: "2%", height: 30 }} />
                         </h5>
-                        <div class="add_comment" style={{ marginBottom: "3%" }}>
+                        <div className="add_comment" style={{ marginBottom: "3%" }}>
                             <form onSubmit={handlePost}>
                                 <textarea id="comment" type="text" placeholder="Add a comment" cols="34" rows="5"
                                     ref={inputComment} onChange={handleChange} name="comment" required autofocus>
                                 </textarea>
                                 <br></br>
-                                <button type="submit" class="btn btn-small btn-orange">Post</button>
+                                <button type="submit" className="btn btn-small btn-orange">Post</button>
                             </form>
                         </div>
                     </td>

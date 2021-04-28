@@ -90,7 +90,7 @@ const handle_request = async (req, callback) => {
         if (value.amount > 0) {
             finalDashboardData.push('You get back $' + parseFloat(value.amount).toFixed(2) + ' from ' + value.name);
         } else if (value.amount < 0) {
-            finalDashboardData.push('You owe $' + parseFloat(value.amount).toFixed(2) + ' to ' + value.name);
+            finalDashboardData.push('You owe $' + (-1*parseFloat(value.amount).toFixed(2)) + ' to ' + value.name);
         }
     }
     callback(null, {

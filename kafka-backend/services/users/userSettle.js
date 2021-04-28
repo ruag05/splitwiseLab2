@@ -20,7 +20,7 @@ const handle_request = async (req, callback) => {
             await utils.settleUpTheUsers(rawDebt);
             if (index == rawUserDebts.length - 1) {
                 callback(null, {
-                    message: "Successfully settled up",
+                    msg: "Successfully settled up",
                     success: true
                 })
                 return;

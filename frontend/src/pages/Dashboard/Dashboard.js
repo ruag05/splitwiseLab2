@@ -5,9 +5,16 @@ import axios from "axios";
 import Modal from "react-modal";
 import { useAlert } from "react-alert";
 
+import { useSelector, useDispatch } from "react-redux";
+import { getStats, getDashboardData, getTUsers, settle, res } from '../../Actions/DashboardActions';
+import { resetMsg } from '../../reducer/DashboardReducer';
+
 Modal.setAppElement("#root");
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const redux_data = useSelector(state => state.dashboard);
+
   const alert = useAlert();
 
   const [borrowerId, setBorrowerId] = useState(null);
@@ -36,50 +43,87 @@ export default function Dashboard() {
     setData([]);
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-
-    axios
-      .get(`/groups/getStats`)
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        alert.error(String(err)); //err.response?.data?.msg
-      });
+    dispatch(getStats());
+    // setData(redux_data.data);
+    // axios
+    //   .get(`/groups/getStats`)
+    //   .then((res) => {
+    //     setData(res.data);
+    //   })
+    //   .catch((err) => {
+    //     alert.error(String(err)); //err.response?.data?.msg
+    //   });
 
     setSUsers(new Map());
 
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .get(`/groups/getDashboardData`)
-      .then((res) => {
-        setPay([]);
-        setOwe([]);
-        res.data.finalDashboardData.map((e) => {
-          if (e.includes("owe")) {
-            setOwe((ps) => [...ps, e]);
-          }
-          else {
-            setPay((ps) => [...ps, e]);
-          }
-        })
-      })
-      .catch(console.log);
+    dispatch(getDashboardData());
+    // setPay([]);
+    // setOwe([]);
+    // redux_data.finalDashboardData.map((e) => {
+    //   if (e.includes("owe")) {
+    //     setOwe((ps) => [...ps, e]);
+    //   }
+    //   else {
+    //     setPay((ps) => [...ps, e]);
+    //   }
+    // })
+
+    // axios
+    //   .get(`/groups/getDashboardData`)
+    //   .then((res) => {
+    //     setPay([]);
+    //     setOwe([]);
+    //     res.data.finalDashboardData.map((e) => {
+    //       if (e.includes("owe")) {
+    //         setOwe((ps) => [...ps, e]);
+    //       }
+    //       else {
+    //         setPay((ps) => [...ps, e]);
+    //       }
+    //     })
+    //   })
+    //   .catch(console.log);
 
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .get(`/groups/getTusers`)
-      .then((res) => {
-        let usersId = new Map();
-        setSUsers(res.data.users);
-      })
-      .catch(console.log);
+    dispatch(getTUsers());
+    // axios
+    //   .get(`/groups/getTusers`)
+    //   .then((res) => {
+    //     let usersId = new Map();
+    //     setSUsers(res.data.users);
+    //   })
+    //   .catch(console.log);
   };
 
   useEffect(() => {
+    dispatch(resetMsg());
     fetchRes();
   }, []);
+
+  useEffect(() => {
+    setData(redux_data.data);
+  }, [redux_data.data])
+
+  useEffect(() => {
+    setPay([]);
+    setOwe([]);
+    redux_data.finalDashboardData.map((e) => {
+      if (e.includes("owe")) {
+        setOwe((ps) => [...ps, e]);
+      }
+      else {
+        setPay((ps) => [...ps, e]);
+      }
+    })
+  }, [redux_data.finalDashboardData])
+
+  useEffect(() => {
+    let usersId = new Map();
+    setSUsers(redux_data.users);
+  }, [redux_data.users])
 
   function openModal() {
     setIsOpen(true);
@@ -88,7 +132,6 @@ export default function Dashboard() {
   function afterOpenModal() { }
 
   function closeModal() {
-    console.log(sUsers);
     setIsOpen(false);
   }
 
@@ -102,14 +145,28 @@ export default function Dashboard() {
       alert("Please select a user to settle with");
       return;
     }
-    axios
-      .post("/users/settle", { borrowerId })
-      .then((res) => {
-        fetchRes();
-        closeModal();
-      })
-      .catch((err) => { });
+    dispatch(settle(borrowerId));
+    fetchRes();
+    closeModal();
+    dispatch(resetMsg());
+    // axios
+    //   .post("/users/settle", { borrowerId })
+    //   .then((res) => {
+    //     fetchRes();
+    //     closeModal();
+    //   })
+    //   .catch((err) => { });
   };
+
+  useEffect(() => {
+    if (redux_data.msg !== "") {
+      if (redux_data.success)
+        alert.success(redux_data.msg);
+      else
+        alert.error(redux_data.msg);
+    }
+  }, [redux_data.msg])
+
   return (
     <nav>
       <nav className="main">

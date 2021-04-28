@@ -100,8 +100,8 @@ export default function Login() {
             </div>
           </div>
         </div>
-        <footer class="bg-light text-lg-start">
-          <div class="text-center p-n33" >Made by Ruchir Agarwal
+        <footer className="bg-light text-lg-start">
+          <div className="text-center p-n33" >Made by Ruchir Agarwal
           <br />
             <div className='buttonflex'>
               <a href="https://www.linkedin.com/in/ruchir-agarwal-7b2713a7/" target="_blank" className='linkedin'>Linked <i className="fab fa-linkedin"></i></a>

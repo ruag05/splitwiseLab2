@@ -47,7 +47,6 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    console.log("-----redux_data.msg------", redux_data)
     if (redux_data.msg !== "") {
       if (redux_data.success)
         alert.success(redux_data.msg);

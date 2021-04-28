@@ -3,6 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import ProfileReducer from './ProfileReducer'
 import CreateGroupReducer from './CreateGroupReducer';
 import RecentActivitiesReducer from './RecentActivitiesReducer';
+import  DashboardReducer from "./DashboardReducer"
 
 export default configureStore({
     // middleware: getDefaultMiddleware({
@@ -18,6 +19,7 @@ export default configureStore({
     reducer: {
          profile: ProfileReducer,
          createGroup: CreateGroupReducer,
-         recentActivities: RecentActivitiesReducer
+         recentActivities: RecentActivitiesReducer,
+         dashboard: DashboardReducer
     },
 }, composeWithDevTools());
