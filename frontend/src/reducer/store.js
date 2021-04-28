@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import ProfileReducer from './ProfileReducer'
 import CreateGroupReducer from './CreateGroupReducer';
+import RecentActivitiesReducer from './RecentActivitiesReducer';
 
 export default configureStore({
     // middleware: getDefaultMiddleware({
@@ -16,6 +17,7 @@ export default configureStore({
     //   }),
     reducer: {
          profile: ProfileReducer,
-         createGroup: CreateGroupReducer
+         createGroup: CreateGroupReducer,
+         recentActivities: RecentActivitiesReducer
     },
 }, composeWithDevTools());

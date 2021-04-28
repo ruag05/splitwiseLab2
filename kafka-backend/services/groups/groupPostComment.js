@@ -17,8 +17,6 @@ const handle_request = async (req, callback) => {
             ]
         })
 
-       // console.log("***********req************: ", req)
-       // console.log("***********currentExpense************: ", currentExpense)
         //add entry for the expense in the History Model
         await HistoryModel.create({
             authorId: req.user.userId,

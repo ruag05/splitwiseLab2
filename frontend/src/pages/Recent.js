@@ -5,7 +5,13 @@ import { FaCartPlus } from "react-icons/fa";
 import Pagination from '../components/Pagination';
 import { useAlert } from "react-alert";
 
+import { useSelector, useDispatch } from "react-redux";
+import { getGroupsName, getHistory } from '../Actions/RecentActivitiesActions';
+
 export default function Recent() {
+  const dispatch = useDispatch();
+  const redux_data = useSelector(state => state.recentActivities);
+
   const alert = useAlert();
 
   const [filterGrp, setFilterGrp] = useState('all');
@@ -18,15 +24,8 @@ export default function Recent() {
   const [historyPerPage, setHistoryPerPage] = useState(2);
 
   const handleFilter = (e) => {
-    console.log("Selected group ID.........e.target.value:", e.target.value);
     setFilterGrp(e.target.value)
     setCurrentPage(1);
-    // if (e.target.value === "all") {
-    //   setToShow([...history.sort(sortBydate)]);
-    //   return;
-    // }
-   // let newList = history.filter((hist) => hist.groupId === e.target.value);
-    //setToShow([...newList.reverse()]);
   };
 
   const handlePageSize = (e) => {
@@ -36,78 +35,60 @@ export default function Recent() {
   };
 
   const paginate = pageNumber => {
-    console.log("pageNumber.............", pageNumber);
     setCurrentPage(pageNumber);
   }
 
   useEffect(() => {
-    console.log("Inside useEffect based on initial load");
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .get("/groups/getAllGroupsName")
-      .then((res) => {
-        let names = new Map();
-        res.data.groups.map(g => {
-          names.set(g._id, g.name);
-        });
-      
-        setGNames(names);
-
-        // gNames.map(entry => {
-        //   entry.createdAt = entry.createdAt.getDay()
-        // });
-      })
-      .catch((err) => {
-        alert.error(String(err));
-      });
+    dispatch(getGroupsName());
 
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .get("/users/getAllHistory")
-      .then((res) => {
-        console.log("res.data.history.length..........", res.data.history.length)
-        setHistory(res.data.history);
-        setActualHistory(res.data.history);
-
-        //get current posts
-        const indexOfLastHistory = currentPage * historyPerPage;
-        const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
-        const currentHistory = res.data.history.slice(indexOfFirstHistory, indexOfLastHistory);
-
-        setToShow(currentHistory.sort(sortBydate));
-        setGids(res.data.gids);
-      })
-      .catch((err) => { });
+    dispatch(getHistory());  
   }, []);
 
   useEffect(() => {
-    console.log("Inside useEffect based on filterGrp");
+    let names = new Map();
+    redux_data.groups.map(g => {
+      names.set(g._id, g.name);
+    });
+
+    setGNames(names)
+  }, [redux_data.groups])
+
+  useEffect(() => {
+    setHistory(redux_data.history);
+    setActualHistory(redux_data.history);
+
+    //get current posts
+    const indexOfLastHistory = currentPage * historyPerPage;
+    const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
+    const currentHistory = redux_data.history.slice(indexOfFirstHistory, indexOfLastHistory);
+
+    setToShow(currentHistory.sort(sortBydate));
+    setGids(redux_data.gids);
+  }, [redux_data.history])
+
+  useEffect(() => {
     if (filterGrp === null) {
       console.log("filterGrp empty");
     }
-    else if(filterGrp === "all"){
+    else if (filterGrp === "all") {
       console.log("filterGrp all");
-      console.log("Selected group ID:.........", filterGrp);
-      setActualHistory(history);
+      setActualHistory(redux_data.history);
 
       //get current posts
       const indexOfLastHistory = currentPage * historyPerPage;
       const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
-      const currentHistory = history.slice(indexOfFirstHistory, indexOfLastHistory);
+      const currentHistory = redux_data.history.slice(indexOfFirstHistory, indexOfLastHistory);
 
-      //setHistory(currentHistory.sort(sortBydate));
       setToShow(currentHistory.sort(sortBydate));
-      //setGids(res.data.gids);
     }
     else {
       console.log("filterGrp not empty");
-      console.log("Selected group ID:.........", filterGrp);
 
-      const filteredHistory = history.filter((hist) => hist.groupId === filterGrp);
-      console.log("filtered history length...........: ", filteredHistory.length)
-
+      const filteredHistory = redux_data.history.filter((hist) => hist.groupId === filterGrp);
       setActualHistory(filteredHistory)
 
       //get current posts
@@ -115,9 +96,7 @@ export default function Recent() {
       const indexOfFirstHistory = indexOfLastHistory - historyPerPage;
       const currentHistory = filteredHistory.slice(indexOfFirstHistory, indexOfLastHistory);
 
-      //setHistory(currentHistory.sort(sortBydate));
       setToShow(currentHistory.sort(sortBydate));
-      //setGids(res.data.gids);
     }
   }, [filterGrp, currentPage, historyPerPage])
 
@@ -130,13 +109,7 @@ export default function Recent() {
     return new Date(string).toLocaleDateString([], options);
   }
 
-  const filteredItems = history.filter((hist) => hist.groupId === filterGrp); 
-  console.log("---------------history----------------", history)
-  console.log("---------------actualHistory----------------", actualHistory)
-  console.log("---------------currentPage----------------", currentPage)
-  console.log("---------------historyPerPage----------------", historyPerPage)
-  console.log("---------------toShow----------------", toShow)
-
+  const filteredItems = history.filter((hist) => hist.groupId === filterGrp);
   return (
     <div style={{ marginTop: 20 }}>
       <div className="container" style={{ height: 47, backgroundColor: "darkgray" }}>
@@ -186,14 +159,14 @@ export default function Recent() {
               <div className="t-icon">
                 <FaCartPlus color="gray" size="30" />
               </div>
-              <p className="pl-5" style={{ color: "gray" }}>
+              <div className="pl-5" style={{ color: "gray" }}>
                 <span>
                   <h5 style={{ fontSize: 20, fontWeight: "bolder", color: "gray" }}>Group: {gNames.get(h.groupId)}</h5>
                   <h6 style={{ fontSize: 16, color: "gray" }}>{h.title}</h6>
                 </span>
                 {gNames.get(h.groupId).getDay}
                 <p style={{ fontSize: 12, fontWeight: "bold", color: "darkgray" }}>{formatDate(h.createdAt)}</p>
-              </p>
+              </div>
             </div>
           );
         })}

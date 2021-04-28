@@ -40,7 +40,6 @@ export default function CreateGroup() {
       dispatch(createGroup(data));
     }
     catch (err) {
-      console.log("inside catch")
       alert.error(err);
     }
   };
