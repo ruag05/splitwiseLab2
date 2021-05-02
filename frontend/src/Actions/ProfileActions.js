@@ -34,7 +34,7 @@ export const send_update = createAsyncThunk(
     'users/sendupdate',
     async (pckg) => {
         try {
-            const response = await axios.post('http://localhost:3001/profile/update', pckg)
+            const response = await axios.post('http://3.19.244.146:3001/profile/update', pckg)
             console.log(response.status)
             if (response.status === 200) {
                 return { status: true, key: pckg.data.type, value: pckg.data.value }

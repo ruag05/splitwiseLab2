@@ -12,7 +12,7 @@ import store from './reducer/store';
 import { Provider } from 'react-redux';
 
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "http://3.19.244.146:5000";
 axios.defaults.withCredentials = true;
 
 const options = {
