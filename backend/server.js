@@ -17,7 +17,7 @@ dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ['http://3.19.244.146:3000', 'http://3.19.244.146:3001', 'database-1.c7md5anch9xu.us-east-2.rds.amazonaws.com'];
+const allowedOrigins = ['http://3.135.9.137:3000', 'http://3.135.9.137:3001', 'database-1.c7md5anch9xu.us-east-2.rds.amazonaws.com'];
 const corsOptions = {
   origin: allowedOrigins,
   credentials: true
